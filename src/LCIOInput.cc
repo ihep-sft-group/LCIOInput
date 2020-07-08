@@ -120,6 +120,9 @@ StatusCode LCIOInput::execute()
             else if ( colType == "SimCalorimeterHit" ) {
                 registCollection<edm4hep::SimCalorimeterHitCollection>(colName);
             }
+            else if ( colType == "Track" ) {
+                registCollection<edm4hep::TrackCollection>(colName);
+            }
         }
 
         ++m_nEvents;

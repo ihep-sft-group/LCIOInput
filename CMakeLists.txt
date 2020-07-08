@@ -8,8 +8,8 @@ set(LCIOInput_srcs
     )
 
 gaudi_add_module(LCIOInput ${LCIOInput_srcs}
-    INCLUDE_DIRS GaudiKernel FWCore ${EDM4HEP_INCLUDE_DIR} ${K4LCIOReader_INCLUDE_DIR}
-    LINK_LIBRARIES GaudiKernel GaudiAlgLib FWCore ${EDM4HEP_DIR}/../../libedm4hep.so K4LCIOReader::K4LCIOReader
+    INCLUDE_DIRS FWCore ${EDM4HEP_INCLUDE_DIR} ${K4LCIOReader_INCLUDE_DIR}
+    LINK_LIBRARIES GaudiKernel GaudiAlgLib FWCore K4LCIOReader::K4LCIOReader
     )
 
 #gaudi_add_test()
