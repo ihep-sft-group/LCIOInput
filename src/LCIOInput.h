@@ -28,12 +28,14 @@ class LCIOInput : public GaudiAlgorithm {
 
     int m_nEvents;
 
+    std::vector<std::pair<std::string, std::string>> m_collections;
+
     //input file(s)
     std::vector<std::string> m_files;
     std::string m_file;
 
     //map of collections to read: key is the collection name, value is the collection type
-    Gaudi::Property<std::map<std::string, std::string>> m_collections{this, "collections", {}, "Places of collections to read"};
+    Gaudi::Property<std::vector<std::string>> m_readCols{this, "collections", {}, "Places of collections to read"};
 
     //the map of collection name to its corresponding DataHandle
     std::map<std::string, DataObjectHandleBase*> m_dataHandles;

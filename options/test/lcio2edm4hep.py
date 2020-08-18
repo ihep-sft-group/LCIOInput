@@ -11,13 +11,14 @@ read = LCIOInput("read")
 read.inputs = [
 "/cefs/data/FullSim/CEPC240/CEPC_v4/higgs/smart_final_states/E240.Pffh_invi.e0.p0.whizard195//ffh_inv.e0.p0.00001_1000_sim.slcio"
 ]
-read.collections = {
-        "COILCollection" : "SimTrackerHit",
-        #"EcalBarrelSiliconCollection" : "SimCalorimeterHit",
-        "MCParticle" : "MCParticle",
-        "TPCCollection" : "SimTrackerHit",
-        "VXDCollection" : "SimTrackerHit"
-}
+read.collections = [
+        "SimTrackerHit:COILCollection",
+        #"SimCalorimeterHit:EcalBarrelSiliconCollection",
+        "MCParticle:MCParticle",
+        "SimTrackerHit:TPCCollection",
+        "SimTrackerHit:VXDCollection",
+        "MCRecoParticleAssociation:RecoMCTruthLink"
+        ]
 
 # write PODIO file
 from Configurables import PodioOutput

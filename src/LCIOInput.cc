@@ -37,9 +37,11 @@ StatusCode LCIOInput::initialize()
 
     std::vector<std::string> colNames;
 
-    for ( const auto& col : m_collections ) {
-        std::string colName = col.first;
-        std::string colType = col.second;
+    for ( const auto& col : m_readCols ) {
+        auto seperater = col.find(':');
+        std::string colType = col.substr(0, seperater);
+        std::string colName = col.substr(seperater+1);
+        m_collections.push_back(std::make_pair(colName, colType));
 
         if ( colType == "MCParticle" ) {
             m_dataHandles[colName] =
@@ -81,11 +83,19 @@ StatusCode LCIOInput::initialize()
             m_dataHandles[colName] =
                 new DataHandle<edm4hep::ReconstructedParticleCollection>(colName, Gaudi::DataHandle::Writer, this);
         }
-        //TODO: more types to be added, such as LCRelation, Vertex ...
-        //else if ( colType == "LCRelation" ) {
-        //    //m_dataHandles[colName] =
-        //    //    new DataHandle<edm4hep::FIXME>(colName, Gaudi::DataHandle::Writer, this);
-        //}
+        else if ( colType == "MCRecoTrackerAssociation" ) {
+            m_dataHandles[colName] =
+                new DataHandle<edm4hep::MCRecoTrackerAssociationCollection>(colName, Gaudi::DataHandle::Writer, this);
+        }
+        else if ( colType == "MCRecoCaloAssociation" ) {
+            m_dataHandles[colName] =
+                new DataHandle<edm4hep::MCRecoCaloAssociationCollection>(colName, Gaudi::DataHandle::Writer, this);
+        }
+        else if ( colType == "MCRecoParticleAssociation" ) {
+            m_dataHandles[colName] =
+                new DataHandle<edm4hep::MCRecoParticleAssociationCollection>(colName, Gaudi::DataHandle::Writer, this);
+        }
+        //TODO: more types if necessary, such as Vertex ?...
         else {
             error() << "invalid collection type: " << colType << endmsg;
             return StatusCode::FAILURE;
@@ -117,11 +127,38 @@ StatusCode LCIOInput::execute()
             else if ( colType == "SimTrackerHit" ) {
                 registCollection<edm4hep::SimTrackerHitCollection>(colName);
             }
-            else if ( colType == "SimCalorimeterHit" ) {
-                registCollection<edm4hep::SimCalorimeterHitCollection>(colName);
+            else if ( colType == "TPCHit" ) {
+                registCollection<edm4hep::TPCHitCollection>(colName);
+            }
+            else if ( colType == "TrackerHit" ) {
+                registCollection<edm4hep::TrackerHitCollection>(colName);
             }
             else if ( colType == "Track" ) {
                 registCollection<edm4hep::TrackCollection>(colName);
+            }
+            else if ( colType == "SimCalorimeterHit" ) {
+                registCollection<edm4hep::SimCalorimeterHitCollection>(colName);
+            }
+            else if ( colType == "RawCalorimeterHit" ) {
+                registCollection<edm4hep::RawCalorimeterHitCollection>(colName);
+            }
+            else if ( colType == "CalorimeterHit" ) {
+                registCollection<edm4hep::CalorimeterHitCollection>(colName);
+            }
+            else if ( colType == "Cluster" ) {
+                registCollection<edm4hep::ClusterCollection>(colName);
+            }
+            else if ( colType == "ReconstructedParticle" ) {
+                registCollection<edm4hep::ReconstructedParticleCollection>(colName);
+            }
+            else if ( colType == "MCRecoTrackerAssociation" ) {
+                registCollection<edm4hep::MCRecoTrackerAssociationCollection>(colName);
+            }
+            else if ( colType == "MCRecoCaloAssociation" ) {
+                registCollection<edm4hep::MCRecoCaloAssociationCollection>(colName);
+            }
+            else if ( colType == "MCRecoParticleAssociation" ) {
+                registCollection<edm4hep::MCRecoParticleAssociationCollection>(colName);
             }
         }
 
