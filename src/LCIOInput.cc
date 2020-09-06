@@ -10,6 +10,7 @@
 #include "edm4hep/RawCalorimeterHitCollection.h"
 #include "edm4hep/CalorimeterHitCollection.h"
 #include "edm4hep/ClusterCollection.h"
+#include "edm4hep/VertexCollection.h"
 #include "edm4hep/ReconstructedParticleCollection.h"
 #include "edm4hep/MCRecoTrackerAssociationCollection.h"
 #include "edm4hep/MCRecoCaloAssociationCollection.h"
@@ -95,6 +96,10 @@ StatusCode LCIOInput::initialize()
             m_dataHandles[colName] =
                 new DataHandle<edm4hep::MCRecoParticleAssociationCollection>(colName, Gaudi::DataHandle::Writer, this);
         }
+        else if ( colType == "Vertex" ) {
+            m_dataHandles[colName] =
+                new DataHandle<edm4hep::VertexCollection>(colName, Gaudi::DataHandle::Writer, this);
+        }
         //TODO: more types if necessary, such as Vertex ?...
         else {
             error() << "invalid collection type: " << colType << endmsg;
@@ -159,6 +164,9 @@ StatusCode LCIOInput::execute()
             }
             else if ( colType == "MCRecoParticleAssociation" ) {
                 registCollection<edm4hep::MCRecoParticleAssociationCollection>(colName);
+            }
+            else if ( colType == "Vertex" ) {
+                registCollection<edm4hep::VertexCollection>(colName);
             }
         }
 
